@@ -1,0 +1,231 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Starcontroller UI</title>
+    <script src="bower_components/EaselJS/lib/easeljs-0.8.2.min.js">
+    </script>
+    <style>
+      @font-face {
+        font-family: 'DistortionDosDigital';
+        src: url('Distortion Dos Digital.otf');
+      }
+      @font-face {
+        font-family: 'Nyctographic';
+        src: url('Nyctographic.otf');
+      }
+
+      body {
+        font-family: 'DistortionDosDigital';
+        font-size: 12pt;
+        background: #245558;
+        color: #8bffae;
+      }
+      canvas {
+      	width: 100%;
+      	height: 100%;
+      	min-height: 480px;
+      }
+      img {
+      	display: none;
+      }
+    </style>
+    <script>
+      var elements = [];
+    </script>
+
+  </head>
+  <body>
+	<canvas id="ui">
+
+
+	</canvas>
+  <script type="text/javascript">
+    var stage = new createjs.Stage("ui");
+    var devices = {
+      one: false,
+      two: false
+    };
+    function deviceEvent(event, device) {
+      var img = new Image();
+      var key = "";
+      if (device === 1) {
+        img.src = (event === 'add' ? 'roundcolor.png' : 'roundbw.png');
+        devices.one = (event === 'add' ? true : false);
+        key = "roundimage";
+      }
+      else if(device === 2) {
+        img.src = (event === 'add' ? 'squarecolor.png' : 'squarebw.png');
+        devices.two = (event === 'add' ? true : false);
+        key = "squareimage";
+      }
+      console.log(img.src);
+      img.onload = function() {
+        elements[key].image = img;
+        stage.update();
+      };
+      if (devices.one && devices.two) {
+        //UNDER GRAY JUNK HUT
+
+
+        stage.removeChild(elements["txt"]);
+                    var txt = new createjs.Text();
+                    txt.font = "normal 14px Nyctographic";
+                    txt.color = "#ffeecc";
+                    txt.text = "R Y A J K G U N D E H T";
+                    txt.x = 30;
+                    txt.y = 20;
+                    txt.snapToPixel = false;
+                    txt.shadow = new createjs.Shadow("#e6fff1", 0, 0, 2);
+                    stage.addChild(txt);
+
+                    var txt = new createjs.Text();
+                    txt.font = "normal 12px DistortionDosDigital";
+                    txt.color = "#ffeecc";
+                    txt.text = " R    Y    A     J    K     G     U     N    D     E     H     T";
+                    txt.x = 30;
+                    txt.y = 35;
+                    txt.snapToPixel = false;
+                    txt.shadow = new createjs.Shadow("#e6fff1", 0, 0, 2);
+                    stage.addChild(txt);
+        console.log("WINNER WINNER CHICKEN DINNER");
+      }
+    }
+    var height = document.getElementById('ui').height;
+    var width = document.getElementById('ui').width;
+
+      var topHeight = height * 0.6;
+      var bottomHeight = height * 0.4;
+      var spacing = height * 0.05;
+
+
+    var topSquare = new createjs.Shape();
+    //topSquare.graphics.beginFill("#103135").rect(10,10,stage.width - 20, stage.height - topHeight);
+    var shadow = new createjs.Shadow("#e6fff1", 0, 0, 10);
+    topSquare.graphics.beginStroke("#8bffae").beginFill("#103135").rect(10, 10, width - 20, 50);
+    topSquare.shadow = shadow;
+
+    var offset = 10 + spacing;
+    var bottomWidth = width / 2;
+    var bottomLeftSquare = new createjs.Shape();
+    shadow = new createjs.Shadow("#e4f3ef", 0, 0, 10);
+    bottomLeftSquare.graphics.beginStroke("#62b2a3").beginFill("#103135").rect(10, height - topHeight + offset, bottomWidth - 20, bottomHeight);
+    bottomLeftSquare.shadow = shadow;
+
+    var bottomRightSquare = new createjs.Shape();
+    bottomRightSquare.graphics.beginStroke("#62b2a3").beginFill("#103135").rect(bottomWidth + 10, height - topHeight + offset, bottomWidth - 20, bottomHeight);
+    bottomRightSquare.shadow = shadow;
+
+    var img = new Image();
+    img.src = "roundbw.png";
+    img.onload = function() {
+      var roundbwImage = new createjs.Bitmap(img);
+      roundbwImage.x = 10 + 40;
+      roundbwImage.y = height - topHeight + offset + 5;
+      roundbwImage.scaleX = .5;
+      roundbwImage.scaleY = .5;
+      roundbwImage.addEventListener("click", function() {
+        console.log("Load map to round key");
+        var roundKeyImg = new Image();
+        roundKeyImg.src = "map1.jpg";
+        roundKeyImg.onload = function() {
+          var roundKeyImage = new createjs.Bitmap(roundKeyImg);
+          roundKeyImage.x = 30;
+          roundKeyImage.y = 5;
+          roundKeyImage.scaleX = .35;
+          roundKeyImage.scaleY = .35;
+          roundKeyImage.shadow = new createjs.Shadow("#e4f3ef", 0, 0, 3);
+
+          roundKeyImage.addEventListener("click", function() {
+            stage.removeChild(roundKeyImage);
+            stage.update();
+          });
+          stage.addChild(roundKeyImage);
+          stage.update();
+        };
+
+      });
+      elements["roundimage"] = roundbwImage;
+      stage.addChild(roundbwImage);
+      stage.update();
+    };
+
+    img2 = new Image();
+    img2.src = "squarebw.png";
+    img2.onload = function() {
+      var squarebwImage = new createjs.Bitmap(img2);
+      squarebwImage.x = bottomWidth + 50;
+      squarebwImage.y = height - topHeight + offset + 5;
+      squarebwImage.scaleX = .5;
+      squarebwImage.scaleY = .5;
+      squarebwImage.addEventListener("click", function() {
+        console.log("Load map to square key");
+        var squareKeyImg = new Image();
+        squareKeyImg.src = "map2.jpg";
+        squareKeyImg.onload = function() {
+          var squareKeyImage = new createjs.Bitmap(squareKeyImg);
+          squareKeyImage.x = 30;
+          squareKeyImage.y = 5;
+          squareKeyImage.scaleX = .35;
+          squareKeyImage.scaleY = .35;
+          squareKeyImage.shadow = new createjs.Shadow("#e4f3ef", 0, 0, 3);
+
+          squareKeyImage.addEventListener("click", function() {
+            stage.removeChild(squareKeyImage);
+            stage.update();
+          });
+          stage.addChild(squareKeyImage);
+          stage.update();
+        };
+      });
+      elements["squareimage"] = squarebwImage;
+      stage.addChild(squarebwImage);
+      stage.update();
+    }
+
+    //bottomLeftSquare.addChild(roundbwImage);
+    var squarebwImage = new createjs.Bitmap("squarebw.png");
+
+    stage.addChild(topSquare);
+    stage.addChild(bottomLeftSquare);
+    stage.addChild(bottomRightSquare);
+
+
+    stage.update();
+    </script>
+
+    <script type="text/javascript" src="FontLoader.js"></script>
+    <script type="text/javascript">
+        var fontLoader = new FontLoader(["DistortionDosDigital","Nyctographic"], {
+            "fontLoaded": function(font) {
+                // One of the fonts was loaded
+                console.log("font loaded: " + font.family);
+            },
+            "complete": function(error) {
+                if (error !== null) {
+                    // Reached the timeout but not all fonts were loaded
+                    console.log(error.message);
+                    console.log(error.notLoadedFonts);
+                } else {
+                    // All fonts were loaded
+                    console.log("all fonts were loaded");
+                    var txt = new createjs.Text();
+                    txt.font = "normal 12px DistortionDosDigital";
+                    txt.color = "#ffeecc";
+                    txt.text = "I've buried two keys under two trees\n" +
+                    "Insert keys to receive cipher\n" +
+                    "Touch keys to see clue.";
+                    txt.x = 35;
+                    txt.y = 15;
+                    txt.snapToPixel = false;
+                    txt.shadow = new createjs.Shadow("#e6fff1", 0, 0, 2);
+                    stage.addChild(txt);
+                    elements["txt"] = txt;
+                    stage.update();
+                }
+            }
+        }, 3000);
+        fontLoader.loadFonts();
+    </script>
+  </body>
+
+</html>
